@@ -30,18 +30,15 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.YamlConfig;
 import net.md_5.bungee.log.BungeeLogger;
 import net.md_5.bungee.log.LoggingOutputStream;
-import net.md_5.bungee.netty.PacketMapping;
 import net.md_5.bungee.netty.PipelineUtils;
 import net.md_5.bungee.protocol.Vanilla;
 import net.md_5.bungee.protocol.packet.DefinedPacket;
-import net.md_5.bungee.protocol.packet.Packet3Chat;
 import net.md_5.bungee.protocol.packet.PacketFAPluginMessage;
 import net.md_5.bungee.query.RemoteQuery;
 import net.md_5.bungee.reconnect.YamlReconnectHandler;
 import net.md_5.bungee.scheduler.BungeeScheduler;
 import net.md_5.bungee.tab.Custom;
 import net.md_5.bungee.util.CaseInsensitiveMap;
-import net.md_5.bungee.util.ChatConverter;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.File;
@@ -404,6 +401,22 @@ public class BungeeCord extends ProxyServer
             connectionLock.readLock().unlock();
         }
     }
+
+	public ProxiedPlayer getPlayer(Channel channel) {
+		connectionLock.readLock().lock();
+		try
+		{
+			for (UserConnection connection : connections.values()) {
+				if (connection.isChannel(channel)) {
+					return connection;
+				}
+			}
+			return null;
+		} finally
+		{
+			connectionLock.readLock().unlock();
+		}
+	}
 
     @Override
     public Map<String, ServerInfo> getServers()

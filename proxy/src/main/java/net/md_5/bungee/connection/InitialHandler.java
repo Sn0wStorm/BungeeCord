@@ -73,7 +73,8 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     PacketHandshake ver17handshake;
     byte pingVersion = -1;
     byte clientVersion = -1;
-    String UUID;
+	@Getter
+	AuthResult profile;
 
     private enum State
     {
@@ -307,7 +308,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         Preconditions.checkState( thisState == State.HANDSHAKE, "Not expecting HANDSHAKE" );
         this.handshake = handshake;
         this.vHost = new InetSocketAddress( handshake.getHost(), handshake.getPort() );
-        bungee.getLogger().log( Level.INFO, "{0} has connected", this );
+        bungee.getLogger().log( Level.INFO, "{0} has connected with Protocol: " + handshake.getProtocolVersion(), this );
 
         bungee.getPluginManager().callEvent( new PlayerHandshakeEvent( InitialHandler.this, handshake ) );
 
@@ -380,10 +381,9 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 {
                     if ( error == null )
                     {
-                        AuthResult authResult = BungeeCord.getInstance().gson.fromJson( result, AuthResult.class );
-                        if ( authResult != null )
+                        profile = BungeeCord.getInstance().gson.fromJson( result, AuthResult.class );
+                        if ( profile != null )
                         {
-                            UUID = authResult.getId();
                             finish( false );
                         } else
                         {
@@ -435,10 +435,9 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 {
                     if ( error == null )
                     {
-                        AuthResult authResult = BungeeCord.getInstance().gson.fromJson( result, AuthResult.class );
-                        if ( authResult != null )
+                        profile = BungeeCord.getInstance().gson.fromJson( result, AuthResult.class );
+                        if ( profile != null )
                         {
-                            UUID = authResult.getId();
                             finish( true );
                         } else
                         {
@@ -508,7 +507,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                                         disconnect17( result.getCancelReason() );
                                     } else
                                     {
-                                        unsafe.sendPacket( new PacketLoginSuccess( getName() ) );
+		                                unsafe.sendPacket( new PacketLoginSuccess( getName(), profile.getFormattedId() ) );
                                         try
                                         {
                                             handle( new PacketCDClientStatus( (byte) 0 ) );

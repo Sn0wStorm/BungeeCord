@@ -17,7 +17,6 @@ import net.md_5.bungee.api.event.PermissionCheckEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.score.Scoreboard;
 import net.md_5.bungee.api.tab.TabListHandler;
-import net.md_5.bungee.connection.CancelSendSignal;
 import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.netty.*;
 import net.md_5.bungee.protocol.packet.*;
@@ -135,6 +134,10 @@ public final class UserConnection implements ProxiedPlayer
     {
         return !ch.isClosed();
     }
+
+	public boolean isChannel(Channel channel) {
+		return ch.getHandle().equals(channel);
+	}
 
     @Override
     public void setDisplayName(String name)

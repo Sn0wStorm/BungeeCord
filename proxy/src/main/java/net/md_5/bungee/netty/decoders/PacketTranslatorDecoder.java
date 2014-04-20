@@ -32,6 +32,7 @@ public class PacketTranslatorDecoder extends ByteToMessageDecoder
     public PacketTranslatorDecoder(Protocol protocol)
     {
         this.protocol = protocol;
+
     }
 
     @Override

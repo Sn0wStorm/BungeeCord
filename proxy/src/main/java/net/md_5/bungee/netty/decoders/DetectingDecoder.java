@@ -5,12 +5,14 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.AllArgsConstructor;
+import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.netty.PipelineUtils;
 import net.md_5.bungee.netty.encoders.PacketTranslatorEncoder;
 import net.md_5.bungee.netty.encoders.Varint21LengthFieldPrepender;
 import net.md_5.bungee.protocol.Protocol;
 
 import java.util.List;
+import java.util.logging.Level;
 
 @AllArgsConstructor
 public class DetectingDecoder extends ByteToMessageDecoder {

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.ReadTimeoutException;
+import net.md_5.bungee.ServerConnector;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.connection.CancelSendSignal;
 import net.md_5.bungee.connection.InitialHandler;
@@ -40,7 +41,11 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter
 
             if ( !( handler instanceof InitialHandler || handler instanceof PingHandler ) )
             {
-                ProxyServer.getInstance().getLogger().log( Level.INFO, "{0} has connected", handler );
+	            String protocol = "";
+	            if (handler instanceof ServerConnector) {
+		            protocol = " with Protocol: " + ((ServerConnector) handler).getUser().getProtocolVersion();
+	            }
+		        ProxyServer.getInstance().getLogger().log(Level.INFO, "{0} has connected" + protocol, handler);
             }
         }
     }

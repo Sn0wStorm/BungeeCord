@@ -3,6 +3,7 @@ package net.md_5.bungee;
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -40,6 +41,7 @@ public class ServerConnector extends PacketHandler
 
     private final ProxyServer bungee;
     private ChannelWrapper ch;
+	@Getter
     private final UserConnection user;
     private final BungeeServerInfo target;
     private State thisState = State.ENCRYPT_REQUEST;
