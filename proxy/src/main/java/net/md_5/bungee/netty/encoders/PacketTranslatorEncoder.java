@@ -9,6 +9,7 @@ import net.md_5.bungee.netty.Var;
 import net.md_5.bungee.netty.decoders.PacketTranslatorDecoder;
 import net.md_5.bungee.netty.packetrewriter.PacketRewriter;
 import net.md_5.bungee.netty.packetrewriter.SpawnPlayerRewriter;
+import net.md_5.bungee.netty.packetrewriter.UpdateTileEntityRewriter;
 
 @ChannelHandler.Sharable
 public class PacketTranslatorEncoder extends MessageToByteEncoder<ByteBuf>
@@ -37,6 +38,8 @@ public class PacketTranslatorEncoder extends MessageToByteEncoder<ByteBuf>
             {
 	            if (packetId == 0x14 && rewriter instanceof SpawnPlayerRewriter) {
 		            ((SpawnPlayerRewriter) rewriter).rewriteServerToClient(msg, out, ctx.channel());
+	            } else if (packetId == 0x84 && rewriter instanceof UpdateTileEntityRewriter) {
+		            ((UpdateTileEntityRewriter) rewriter).rewriteServerToClient(msg, out, ctx.channel());
 	            } else {
 		            rewriter.rewriteServerToClient(msg, out);
 	            }

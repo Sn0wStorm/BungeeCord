@@ -226,6 +226,7 @@ public class PacketMapping {
         rewriters[ 0x68 ] = new WindowItemsRewriter();
         rewriters[ 0x82 ] = new UpdateSignRewriter();
         rewriters[ 0x83 ] = new ItemDataRewriter();
+	    rewriters[ 0x84 ] = new UpdateTileEntityRewriter();
         rewriters[ 0x85 ] = new SignEditorRewriter();
         rewriters[ 0xC8 ] = new StatisticsRewriter();
         rewriters[ 0xC9 ] = new PlayerListItemRewriter();
